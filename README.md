@@ -23,8 +23,7 @@ Letakkan prefix IP yang digunakan di bawah:
 ## Routing
 
 - Routing table
-<br>
-![image](https://github.com/user-attachments/assets/0215284c-0a41-417c-b680-d630e960e5c6)
+<br>![image](https://github.com/user-attachments/assets/0215284c-0a41-417c-b680-d630e960e5c6)
 <br>
 
 ## VLSM
@@ -120,6 +119,9 @@ resource "proxmox_virtual_environment_file" "script-family-mart" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
+        - ip route add 192.168.26.34/30 via 192.168.26.33 dev eth1
+        - ip route add 192.168.26.98/30 via 192.168.26.90 dev eth2
+
 
     EOF
 
@@ -143,6 +145,8 @@ resource "proxmox_virtual_environment_file" "script-indomaret" {
         - netplan apply
         - ip link set eth0 up
         - ip link set eth1 up
+        - ip route add 0.0.0.0/0 via 192.168.26.33 dev eth0
+        - ip route add 192.168.26.18/30 via 192.168.26.17 dev eth1
     EOF
 
     file_name = "script-indomaret-d26.yaml"
@@ -166,6 +170,9 @@ resource "proxmox_virtual_environment_file" "script-alfamart" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
+        - ip route add 0.0.0.0/0 via 192.168.26.17 dev eth0
+        - ip route add 192.168.26.2/29 via 192.168.26.1 dev eth1
+        - ip route add 192.168.26.10/30 via 192.168.26.9 dev eth2
     EOF
 
     file_name = "script-alfamart-d26.yaml"
@@ -189,6 +196,9 @@ resource "proxmox_virtual_environment_file" "script-superindo" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
+        - ip route add 0.0.0.0/0 via 192.168.26.33 dev eth0
+        - ip route add 192.168.26.90/30 via 192.168.26.89 dev eth1
+        - ip route add 192.168.26.66/29 via 192.168.26.65 dev eth2
     EOF
 
     file_name = "script-superindo-d26.yaml"
@@ -211,6 +221,8 @@ resource "proxmox_virtual_environment_file" "script-sakinah" {
         - netplan apply
         - ip link set eth0 up
         - ip link set eth1 up
+        - ip route add 0.0.0.0/0 via 192.168.26.89 dev eth0
+        - ip route add 192.168.26.82/29 via 192.168.26.81 dev eth1
     EOF
 
     file_name = "script-sakinah-d26.yaml"
@@ -233,6 +245,8 @@ resource "proxmox_virtual_environment_file" "script-its-mart" {
         - netplan apply
         - ip link set eth0 up
         - ip link set eth1 up
+        - ip route add 0.0.0.0/0 via 192.168.26.65 dev eth0
+        - ip route add 192.168.26.74/29 via 192.168.26.73 dev eth1
     EOF
 
     file_name = "script-its-mart-d26.yaml"
