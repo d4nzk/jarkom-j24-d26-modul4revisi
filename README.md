@@ -1292,7 +1292,8 @@ Explanation
 ## Problems
 - Cloning VM yang gagal terus ketika ramai
 - ga bisa login pakai kredensial user_account
-- (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah
+- (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah <br>
+  Tambahan: Meskipun pakai myITS-WiFi, sering wifinya menghilang dan connection timed out ketika melakukan terraform apply
 <br>
 
 ## Revisions (if any)
