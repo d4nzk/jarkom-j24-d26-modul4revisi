@@ -1245,57 +1245,104 @@ Explanation
 - Client - client
   - Client di 1 subnet yang sama
     - nasi-uduk - geprek
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/f429351b-7fa2-4b4e-85eb-db21e85f834c)<br>
     - pangsit - naspad
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/b3c31343-2c28-45d9-a16e-de188eccfabf)<br>
     - tahu-tek - sego-jamur
-      <br>
+      <br>![image](https://github.com/user-attachments/assets/4afe2021-ba38-4168-a919-4cad6aad5aee)
   - Client di subnet yang berbeda
     - nasi-uduk - pangsit
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/3a205a06-6e22-46f3-834c-2ea0f8066b27)<br>
     - naspad - sego-jamur
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/6c076843-332e-46a7-a166-851f2cd42dde)<br>
     - geprek - tahu-tek
-      <br>
+      <br>![image](https://github.com/user-attachments/assets/3c7744b2-53f9-4adb-ae67-e8b64d8920d7)
 - Client - Server
   - Client dan Server di 1 subnet yang sama
-    - nasi-uduk/geprek - kwetiaw
-      <br>
+    - geprek - kwetiaw
+      <br>![image](https://github.com/user-attachments/assets/d72570e5-3fa1-4268-827c-b2687b01da8c)
   - Client dan Server di subnet yang berbeda
     - nasi-uduk - ikan-fillet
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/33ff27d8-0d22-4476-8981-3a4f68493a6c)<br>
     - naspad - ikan-fillet
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/e36e24f8-3ad2-4aae-97dc-3baabd59e0e9)<br>
     - tahu-tek - ikan-fillet
-      <br><br>
-    - sego-jamur - kwetiaww
-      <br><br>
+      <br>![image](https://github.com/user-attachments/assets/3037a765-af58-457f-a5da-7edce908b0d9)<br>
+    - sego-jamur - kwetiaw
+      <br>![image](https://github.com/user-attachments/assets/ab4a17d7-5430-471f-8a4d-c881a103c608)<br>
     - pangsit - kwetiaw
-      <br>
+      <br>![image](https://github.com/user-attachments/assets/90ef29ce-718a-4195-9f5e-e6c154ba7893)
 
 - Client - Router
-
-  `Put your testing screenshot in here`
-
+  - Client dan Router di 1 subnet yang sama
+      - geprek - alfamart-eth1
+        <br>![image](https://github.com/user-attachments/assets/330d0ad9-97e0-48fe-8ea8-8e8df68fb09a)<br>
+      - sego-jamur - its-mart-eth1
+        <br>![image](https://github.com/user-attachments/assets/8a623da0-6d49-4dd2-ae93-96718b1b4244)<br>
+      - pangsit - sakinah-eth1
+        <br>![image](https://github.com/user-attachments/assets/af1dff66-19e2-4458-9577-770632a40b12)
+    - Client dan Router di subnet yang berbeda
+      - nasi-uduk - family-mart-eth0
+        <br>![image](https://github.com/user-attachments/assets/6b0a1b8b-8903-4127-85af-90b26ff1e702)<br>
+      - naspad - superindo-eth0
+        <br>![image](https://github.com/user-attachments/assets/49994e73-8623-4283-8cd4-6fc54833dcf7)<br>
+      - tahu-tek - indomaret-eth0
+        <br>![image](https://github.com/user-attachments/assets/9382a71d-35e9-4220-8b1e-67ee15dbb12e)
+        
 - Server - Server
-
-  `Put your testing screenshot in here`
+  - kwetiaw - ikan-fillet
+    <br>![image](https://github.com/user-attachments/assets/90ca449e-7b81-48a0-9aa2-a5e79d2d799b)<br>
+  - ikan-fillet - kwetiaw
+    <br>![image](https://github.com/user-attachments/assets/489b8a46-1f33-452e-9ee3-be094de17d45)
 
 - Server - Router
-
-  `Put your testing screenshot in here`
-
+  - Server dan Router di 1 subnet yang sama
+    - ikan-fillet - superindo
+      <br><br>
+    - ikan-fillet - its-mart
+      <br>
+  - Server dan Router di subnet yang berbeda
+    - ikan-fillet - family-mart
+      <br><br>
+    - kwetiaw - indomaret
+      <br><br>
+    - ikan-fillet - alfamart
+      <br><br>
+    - kwetiaw - its-mart
+      <br><br>
+    - ikan-fillet - sakinah
+      <br><br>
+    - kwetiaw - superindo
+      <br>
 - Router - Router
-
-  `Put your testing screenshot in here`
-
+  - Router di 1 subnet yang sama
+    - family-mart - indomaret
+      <br><br>
+    - indomaret - alfamart
+      <br><br>
+    - superindo - family-mart
+      <br><br>
+    - sakinah - superindo
+      <br><br>
+    - its-mart - superindo
+      <br>
+  - Router di subnet yang berbeda
+    - family-mart - sakinah
+      <br><br>
+    - its-mart - family-mart
+      <br><br>
+    - indomaret - superindo
+      <br><br>
+    - alfamart - its-mart
+      <br><br>
+    - sakinah - indomaret
+      <br>
 <br>
   
 ## Problems
 - Cloning VM yang gagal terus ketika ramai
 - ga bisa login pakai kredensial user_account
-- (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah <br>
-  Tambahan: Meskipun pakai myITS-WiFi, sering wifinya menghilang dan connection timed out ketika melakukan terraform apply
-<br>
+- (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah
+  <br>Tambahan: Meskipun pakai myITS-WiFi, sering wifinya menghilang dan connection timed out ketika melakukan terraform apply<br>
 
 ## Revisions (if any)
