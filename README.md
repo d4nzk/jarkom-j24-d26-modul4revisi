@@ -1257,6 +1257,7 @@ Explanation
       <br>![image](https://github.com/user-attachments/assets/6c076843-332e-46a7-a166-851f2cd42dde)<br>
     - geprek - tahu-tek
       <br>![image](https://github.com/user-attachments/assets/3c7744b2-53f9-4adb-ae67-e8b64d8920d7)
+      
 - Client - Server
   - Client dan Server di 1 subnet yang sama
     - geprek - kwetiaw
@@ -1297,46 +1298,50 @@ Explanation
 
 - Server - Router
   - Server dan Router di 1 subnet yang sama
-    - ikan-fillet - superindo
-      <br><br>
-    - ikan-fillet - its-mart
-      <br>
+    - ikan-fillet - superindo-eth2
+      <br>![image](https://github.com/user-attachments/assets/68e420e9-3b19-4165-9950-d726b806f4fe)<br>
+    - ikan-fillet - its-mart-eth0
+      <br>![image](https://github.com/user-attachments/assets/25ac3485-7940-481e-bf53-810617804730)<br>
+    - kwetiaw - alfamart-eth2
+      <br>![image](https://github.com/user-attachments/assets/c55b4541-ebad-4eda-b743-c85a8d02a8cd)
   - Server dan Router di subnet yang berbeda
-    - ikan-fillet - family-mart
-      <br><br>
-    - kwetiaw - indomaret
-      <br><br>
-    - ikan-fillet - alfamart
-      <br><br>
-    - kwetiaw - its-mart
-      <br><br>
-    - ikan-fillet - sakinah
-      <br><br>
-    - kwetiaw - superindo
-      <br>
+    - ikan-fillet - family-mart-eth1
+      <br>![image](https://github.com/user-attachments/assets/b5e4f928-730d-4827-94a2-d58013e2c7b7)<br>
+    - kwetiaw - indomaret-eth1
+      <br>![image](https://github.com/user-attachments/assets/83629fae-f41f-4665-ae44-b2de6fd43334)<br>
+    - ikan-fillet - alfamart-eth1
+      <br>![image](https://github.com/user-attachments/assets/e5b6efa4-ecb1-45e4-af56-49b18a99b3ce)<br>
+    - kwetiaw - its-mart-eth0
+      <br>![image](https://github.com/user-attachments/assets/5df2a9d6-9c4f-427d-820e-fa42a701339d)<br>
+    - ikan-fillet - sakinah-eth1
+      <br>![image](https://github.com/user-attachments/assets/f476b70d-23d5-4083-ad50-2719acb8e6d4)<br>
+    - kwetiaw - superindo-eth0
+      <br>![image](https://github.com/user-attachments/assets/641a69b0-5afe-4fd3-b260-bed7b42079e7)
+
 - Router - Router
   - Router di 1 subnet yang sama
-    - family-mart - indomaret
-      <br><br>
-    - indomaret - alfamart
-      <br><br>
-    - superindo - family-mart
-      <br><br>
-    - sakinah - superindo
-      <br><br>
-    - its-mart - superindo
-      <br>
+    - family-mart - indomaret-eth0
+      <br>![image](https://github.com/user-attachments/assets/040537f2-94e3-4b3c-b3ae-bb6ceef50287)<br>
+    - indomaret - alfamart-eth0
+      <br>![image](https://github.com/user-attachments/assets/2d07669f-2301-46d6-b049-a9f313ed01fb)<br>
+    - superindo - family-mart-eth1
+      <br>![image](https://github.com/user-attachments/assets/eb43f3e7-9da4-4e17-8552-108404ec0024)<br>
+    - sakinah - superindo-eth1
+      <br>![image](https://github.com/user-attachments/assets/c816fa1f-be97-485e-93ac-6a4a3cdab463)<br>
+    - its-mart - superindo-eth2
+      <br>![image](https://github.com/user-attachments/assets/458b7382-d7c4-4443-af48-a7963c6b1511)
   - Router di subnet yang berbeda
-    - family-mart - sakinah
-      <br><br>
-    - its-mart - family-mart
-      <br><br>
-    - indomaret - superindo
-      <br><br>
-    - alfamart - its-mart
-      <br><br>
-    - sakinah - indomaret
-      <br>
+    - family-mart - sakinah-eth1
+      <br>![image](https://github.com/user-attachments/assets/1b5b0e19-84d4-4c51-b8f5-94a9a326582d)<br>
+    - its-mart - family-mart-eth2
+      <br>![image](https://github.com/user-attachments/assets/053102e1-dbae-417e-bd11-d650999fb54e)<br>
+    - indomaret - superindo-eth2
+      <br>![image](https://github.com/user-attachments/assets/0c1bca37-84f3-4ff6-aeb6-e77393cfb3cf)<br>
+    - alfamart - its-mart-eth1
+      <br>![image](https://github.com/user-attachments/assets/72fefbd2-73e2-407d-adc6-5e36172b2c0d)<br>
+    - sakinah - indomaret-eth0
+      <br>![image](https://github.com/user-attachments/assets/f0375d7a-2869-451f-b9f2-cfebe9b72cbd)
+
 <br>
   
 ## Problems
