@@ -119,9 +119,13 @@ resource "proxmox_virtual_environment_file" "script-family-mart" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
-        - ip route add 192.168.26.34/30 via 192.168.26.33 dev eth1
-        - ip route add 192.168.26.98/30 via 192.168.26.90 dev eth2
-
+  - ip route add 192.168.26.16/30 via 192.168.26.34 dev eth1
+  - ip route add 192.168.26.0/29 via 192.168.26.34 dev eth1
+  - ip route add 192.168.26.8/30 via 192.168.26.34 dev eth1
+  - ip route add 192.168.26.88/30 via 192.168.26.98 dev eth2
+  - ip route add 192.168.26.80/29 via 192.168.26.98 dev eth2
+  - ip route add 192.168.26.64/29 via 192.168.26.98 dev eth2
+  - ip route add 192.168.26.72/29 via 192.168.26.98 dev eth2
 
     EOF
 
@@ -146,7 +150,9 @@ resource "proxmox_virtual_environment_file" "script-indomaret" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip route add 0.0.0.0/0 via 192.168.26.33 dev eth0
-        - ip route add 192.168.26.18/30 via 192.168.26.17 dev eth1
+        - ip route add 192.168.26.0/29 via 192.168.26.18 dev eth1
+        - ip route add 192.168.26.8/30 via 192.168.26.18 dev eth1
+
     EOF
 
     file_name = "script-indomaret-d26.yaml"
@@ -162,6 +168,10 @@ resource "proxmox_virtual_environment_file" "script-alfamart" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+      - name: D26
+        password: d26
+
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -171,8 +181,6 @@ resource "proxmox_virtual_environment_file" "script-alfamart" {
         - ip link set eth1 up
         - ip link set eth2 up
         - ip route add 0.0.0.0/0 via 192.168.26.17 dev eth0
-        - ip route add 192.168.26.2/29 via 192.168.26.1 dev eth1
-        - ip route add 192.168.26.10/30 via 192.168.26.9 dev eth2
     EOF
 
     file_name = "script-alfamart-d26.yaml"
@@ -196,9 +204,9 @@ resource "proxmox_virtual_environment_file" "script-superindo" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
-        - ip route add 0.0.0.0/0 via 192.168.26.33 dev eth0
-        - ip route add 192.168.26.90/30 via 192.168.26.89 dev eth1
-        - ip route add 192.168.26.66/29 via 192.168.26.65 dev eth2
+        - ip route add 0.0.0.0/0 via 192.168.26.97 dev eth0
+        - ip route add 192.168.26.80/29 via 192.168.26.90 dev eth1
+        - ip route add 192.168.26.72/29 via 192.168.26.66 dev eth2
     EOF
 
     file_name = "script-superindo-d26.yaml"
@@ -222,7 +230,6 @@ resource "proxmox_virtual_environment_file" "script-sakinah" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip route add 0.0.0.0/0 via 192.168.26.89 dev eth0
-        - ip route add 192.168.26.82/29 via 192.168.26.81 dev eth1
     EOF
 
     file_name = "script-sakinah-d26.yaml"
@@ -246,7 +253,6 @@ resource "proxmox_virtual_environment_file" "script-its-mart" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip route add 0.0.0.0/0 via 192.168.26.65 dev eth0
-        - ip route add 192.168.26.74/29 via 192.168.26.73 dev eth1
     EOF
 
     file_name = "script-its-mart-d26.yaml"
@@ -264,7 +270,7 @@ resource "proxmox_virtual_environment_vm" "family-mart-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -272,12 +278,6 @@ resource "proxmox_virtual_environment_vm" "family-mart-d26" {
     }
 
     initialization {
-      ip_config { # eth0
-        ipv4 {
-          address = lookup(var.ip_list, "family-mart-eth0")
-        }
-      }
-
       ip_config { #eth1
         ipv4 {
           address = lookup(var.ip_list, "family-mart-eth1")
@@ -288,11 +288,6 @@ resource "proxmox_virtual_environment_vm" "family-mart-d26" {
         ipv4 {
           address = lookup(var.ip_list, "family-mart-eth2")
         }
-      }
-
-      user_account {
-        username = "d26"
-        password = "d26"
       }
 
       user_data_file_id = proxmox_virtual_environment_file.script-family-mart.id
@@ -328,12 +323,6 @@ resource "proxmox_virtual_environment_vm" "family-mart-d26" {
         firewall = false
         bridge = "vmbr0"
     }
-
-    network_device {
-        enabled = true
-        firewall = false
-        bridge = "vmbr0"
-    }
 }
 
 resource "proxmox_virtual_environment_vm" "indomaret-d26" {
@@ -347,7 +336,7 @@ resource "proxmox_virtual_environment_vm" "indomaret-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -371,7 +360,6 @@ resource "proxmox_virtual_environment_vm" "indomaret-d26" {
         username = "d26"
         password = "d26"
       }
-
       user_data_file_id = proxmox_virtual_environment_file.script-indomaret.id
     }
 
@@ -418,7 +406,7 @@ resource "proxmox_virtual_environment_vm" "alfamart-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -442,11 +430,6 @@ resource "proxmox_virtual_environment_vm" "alfamart-d26" {
         ipv4 {
           address = lookup(var.ip_list, "alfamart-eth2")
         }
-      }
-
-      user_account {
-        username = "d26"
-        password = "d26"
       }
 
       user_data_file_id = proxmox_virtual_environment_file.script-alfamart.id
@@ -501,7 +484,7 @@ resource "proxmox_virtual_environment_vm" "nasi-uduk-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -559,7 +542,7 @@ resource "proxmox_virtual_environment_vm" "geprek-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -617,7 +600,7 @@ resource "proxmox_virtual_environment_vm" "kwetiaw-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -675,7 +658,7 @@ resource "proxmox_virtual_environment_vm" "superindo-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -705,7 +688,6 @@ resource "proxmox_virtual_environment_vm" "superindo-d26" {
         username = "d26"
         password = "d26"
       }
-
       user_data_file_id = proxmox_virtual_environment_file.script-superindo.id
     }
 
@@ -758,7 +740,7 @@ resource "proxmox_virtual_environment_vm" "sakinah-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -782,7 +764,6 @@ resource "proxmox_virtual_environment_vm" "sakinah-d26" {
         username = "d26"
         password = "d26"
       }
-
       user_data_file_id = proxmox_virtual_environment_file.script-sakinah.id
     }
 
@@ -829,7 +810,7 @@ resource "proxmox_virtual_environment_vm" "pangsit-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -887,7 +868,7 @@ resource "proxmox_virtual_environment_vm" "naspad-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -945,7 +926,7 @@ resource "proxmox_virtual_environment_vm" "ikan-fillet-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -1003,7 +984,7 @@ resource "proxmox_virtual_environment_vm" "its-mart-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -1027,7 +1008,6 @@ resource "proxmox_virtual_environment_vm" "its-mart-d26" {
         username = "d26"
         password = "d26"
       }
-
       user_data_file_id = proxmox_virtual_environment_file.script-its-mart.id
     }
 
@@ -1074,7 +1054,7 @@ resource "proxmox_virtual_environment_vm" "tahu-tek-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -1132,7 +1112,7 @@ resource "proxmox_virtual_environment_vm" "sego-jamur-d26" {
     clone {
         datastore_id = "local-lvm"
         node_name = "its"
-        vm_id = "5555"
+        vm_id = 5555
     }
 
     agent {
@@ -1186,7 +1166,7 @@ Explanation:
 ```
 variable "proxmox_url" {
   type    = string
-  default = "https://10.21.71.4:8006" # http://10.21.71.4:8006
+  default = "https://10.21.71.4:8006"
 }
 
 variable "proxmox_user" {
@@ -1222,7 +1202,6 @@ variable "vm_id_list" {
 variable "ip_list" {
   type        = map(string)
   default = {
-    "family-mart-eth0" = "dhcp"
     "family-mart-eth1" = "192.168.26.33/30"
     "family-mart-eth2" = "192.168.26.97/30"
     "indomaret-eth0" = "192.168.26.34/30"
@@ -1264,12 +1243,35 @@ Explanation
 ### Testing
 
 - Client - client
-
-  `Put your testing screenshot in here`
-
+  - Client di 1 subnet yang sama
+    - nasi-uduk - geprek
+      <br><br>
+    - pangsit - naspad
+      <br><br>
+    - tahu-tek - sego-jamur
+      <br>
+  - Client di subnet yang berbeda
+    - nasi-uduk - pangsit
+      <br><br>
+    - naspad - sego-jamur
+      <br><br>
+    - geprek - tahu-tek
+      <br>
 - Client - Server
-
-  `Put your testing screenshot in here`
+  - Client dan Server di 1 subnet yang sama
+    - nasi-uduk/geprek - kwetiaw
+      <br>
+  - Client dan Server di subnet yang berbeda
+    - nasi-uduk - ikan-fillet
+      <br><br>
+    - naspad - ikan-fillet
+      <br><br>
+    - tahu-tek - ikan-fillet
+      <br><br>
+    - sego-jamur - kwetiaww
+      <br><br>
+    - pangsit - kwetiaw
+      <br>
 
 - Client - Router
 
