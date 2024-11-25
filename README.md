@@ -56,29 +56,29 @@ Letakkan prefix IP yang digunakan di bawah:
 
 - Iteration 1
 
-  ![image](https://github.com/user-attachments/assets/48c1b03b-53d9-40b0-bac8-c9b22b9ef135)
-
+  ![image](https://github.com/user-attachments/assets/b19e3719-3a9f-4579-856a-937992d436ec)
+  
 - Iteration 2
 
-  ![image](https://github.com/user-attachments/assets/85ce9cf5-ca13-49cd-a050-184d2ae87b0f)
+  ![image](https://github.com/user-attachments/assets/0ad615e4-8ae0-42ce-a9ea-9520bfe46f10)
 
   ![image](https://github.com/user-attachments/assets/048917cd-31fc-4603-b770-ff63db2df1e5)
 
 - Iteration 3
 
-  ![image](https://github.com/user-attachments/assets/9c18b140-ad0c-4071-b095-10383e4d8e8b)
+  ![image](https://github.com/user-attachments/assets/88d00246-9661-4ece-8019-94ace948c89c)
 
   ![image](https://github.com/user-attachments/assets/22bccf8d-545e-42d9-b89e-61ccb1d246fd)
 
 - Iteration 4
   
-  ![image](https://github.com/user-attachments/assets/15802fa1-38a0-41a0-9cd9-87b6721ff79d)
+  ![image](https://github.com/user-attachments/assets/d2cd8a4c-7647-4877-a3c8-a5bcac2672b6)
 
   ![image](https://github.com/user-attachments/assets/17907e6d-cf33-4297-a2df-08d3a0c83f99)
 
 - Iteration 5
 
-  ![image](https://github.com/user-attachments/assets/1afbd7fc-2748-4915-a828-8a5a9abc4489)
+  ![image](https://github.com/user-attachments/assets/15572e0d-c741-4104-bd12-dfa39146b981)
 
   ![image](https://github.com/user-attachments/assets/b7b07b12-216d-4d80-b985-c3599f4e5200)
 
