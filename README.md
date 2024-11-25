@@ -109,8 +109,12 @@ resource "proxmox_virtual_environment_file" "script-family-mart" {
   file_mode    = "0700"
 
   source_raw {
-    data = <<-EOF
+    data = <<-EOT
     #cloud-config
+    users:
+        - name: "d26"
+          password: "d26"
+    
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -127,7 +131,7 @@ resource "proxmox_virtual_environment_file" "script-family-mart" {
         - ip route add 192.168.26.64/29 via 192.168.26.98 dev eth2
         - ip route add 192.168.26.72/29 via 192.168.26.98 dev eth2
 
-    EOF
+    EOT
 
     file_name = "script-family-mart-d26.yaml"
   }
@@ -142,6 +146,10 @@ resource "proxmox_virtual_environment_file" "script-indomaret" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+        - name: "d26"
+          password: "d26"
+
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -169,8 +177,8 @@ resource "proxmox_virtual_environment_file" "script-alfamart" {
     data = <<-EOF
     #cloud-config
     users:
-      - name: D26
-        password: d26
+        - name: "d26"
+          password: "d26"
 
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
@@ -196,6 +204,10 @@ resource "proxmox_virtual_environment_file" "script-superindo" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+        - name: "d26"
+          password: "d26"
+
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -222,6 +234,10 @@ resource "proxmox_virtual_environment_file" "script-sakinah" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+        - name: "d26"
+          password: "d26"
+
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -245,6 +261,10 @@ resource "proxmox_virtual_environment_file" "script-its-mart" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+        - name: "d26"
+          password: "d26"
+          
     runcmd:
         - sysctl -w net.ipv4.ip_forward=1
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
@@ -356,10 +376,6 @@ resource "proxmox_virtual_environment_vm" "indomaret-d26" {
         }
       }
 
-      user_account {
-        username = "d26"
-        password = "d26"
-      }
       user_data_file_id = proxmox_virtual_environment_file.script-indomaret.id
     }
 
@@ -684,10 +700,6 @@ resource "proxmox_virtual_environment_vm" "superindo-d26" {
         }
       }
 
-      user_account {
-        username = "d26"
-        password = "d26"
-      }
       user_data_file_id = proxmox_virtual_environment_file.script-superindo.id
     }
 
@@ -760,10 +772,6 @@ resource "proxmox_virtual_environment_vm" "sakinah-d26" {
         }
       }
 
-      user_account {
-        username = "d26"
-        password = "d26"
-      }
       user_data_file_id = proxmox_virtual_environment_file.script-sakinah.id
     }
 
@@ -1004,10 +1012,6 @@ resource "proxmox_virtual_environment_vm" "its-mart-d26" {
         }
       }
 
-      user_account {
-        username = "d26"
-        password = "d26"
-      }
       user_data_file_id = proxmox_virtual_environment_file.script-its-mart.id
     }
 
@@ -1160,8 +1164,1150 @@ resource "proxmox_virtual_environment_vm" "sego-jamur-d26" {
 }
 ```
 Explanation:
+- ```
+  terraform {
+  required_providers {
+    proxmox = {
+      source  = "bpg/proxmox"
+      version = "0.66.1"
+      }
+    }
+  }
+  ```
+  Penjelasan: Digunakan untuk mendeklarasikan provider yang akan dipakai, yaitu Proxmox
+- ```
+  provider "proxmox" {
+  endpoint = var.proxmox_url
+  username = var.proxmox_user
+  password = var.proxmox_password
+  insecure = true
+  }
+  ```
+  Penjelasan: Digunakan untuk _login_ ke dalam URL Proxmox yang didefinisikan di `variables.tf`. `insecure` digunakan untuk masuk ke dalam website yang _Not Secure_.
+- ```
+    resource "proxmox_virtual_environment_file" "script-family-mart" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOT
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+      
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip link set eth2 up
+          - ip route add 192.168.26.16/30 via 192.168.26.34 dev eth1
+          - ip route add 192.168.26.0/29 via 192.168.26.34 dev eth1
+          - ip route add 192.168.26.8/30 via 192.168.26.34 dev eth1
+          - ip route add 192.168.26.88/30 via 192.168.26.98 dev eth2
+          - ip route add 192.168.26.80/29 via 192.168.26.98 dev eth2
+          - ip route add 192.168.26.64/29 via 192.168.26.98 dev eth2
+          - ip route add 192.168.26.72/29 via 192.168.26.98 dev eth2
+  
+      EOT
+  
+      file_name = "script-family-mart-d26.yaml"
+    }
+  }
+  
+  resource "proxmox_virtual_environment_file" "script-indomaret" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOF
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+  
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip route add 0.0.0.0/0 via 192.168.26.33 dev eth0
+          - ip route add 192.168.26.0/29 via 192.168.26.18 dev eth1
+          - ip route add 192.168.26.8/30 via 192.168.26.18 dev eth1
+  
+      EOF
+  
+      file_name = "script-indomaret-d26.yaml"
+    }
+  }
+  
+  resource "proxmox_virtual_environment_file" "script-alfamart" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOF
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+  
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip link set eth2 up
+          - ip route add 0.0.0.0/0 via 192.168.26.17 dev eth0
+      EOF
+  
+      file_name = "script-alfamart-d26.yaml"
+    }
+  }
+  
+  resource "proxmox_virtual_environment_file" "script-superindo" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOF
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+  
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip link set eth2 up
+          - ip route add 0.0.0.0/0 via 192.168.26.97 dev eth0
+          - ip route add 192.168.26.80/29 via 192.168.26.90 dev eth1
+          - ip route add 192.168.26.72/29 via 192.168.26.66 dev eth2
+      EOF
+  
+      file_name = "script-superindo-d26.yaml"
+    }
+  }
+  
+  resource "proxmox_virtual_environment_file" "script-sakinah" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOF
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+  
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip route add 0.0.0.0/0 via 192.168.26.89 dev eth0
+      EOF
+  
+      file_name = "script-sakinah-d26.yaml"
+    }
+  }
+  
+  resource "proxmox_virtual_environment_file" "script-its-mart" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name    = "its"
+    file_mode    = "0700"
+  
+    source_raw {
+      data = <<-EOF
+      #cloud-config
+      users:
+          - name: "d26"
+            password: "d26"
+            
+      runcmd:
+          - sysctl -w net.ipv4.ip_forward=1
+          - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+          - sysctl -p
+          - netplan apply
+          - ip link set eth0 up
+          - ip link set eth1 up
+          - ip route add 0.0.0.0/0 via 192.168.26.65 dev eth0
+      EOF
+  
+      file_name = "script-its-mart-d26.yaml"
+    }
+  }
+  ```
+  Penjelasan: Script-script `cloud-init` diatas digunakan untuk men-_setup_ router-router yang akan digunakan sebagi "jalan"
+- ```
+  resource "proxmox_virtual_environment_vm" "family-mart-d26" {
+      name = "family-mart-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "family-mart-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "family-mart-eth1")
+          }
+        }
+  
+        ip_config { #eth2
+          ipv4 {
+            address = lookup(var.ip_list, "family-mart-eth2")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-family-mart.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "indomaret-d26" {
+      name = "indomaret-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "indomaret-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "indomaret-eth0")
+          }
+        }
+  
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "indomaret-eth1")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-indomaret.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "alfamart-d26" {
+      name = "alfamart-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "alfamart-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "alfamart-eth0")
+          }
+        }
+  
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "alfamart-eth1")
+          }
+        }
+  
+        ip_config { #eth2
+          ipv4 {
+            address = lookup(var.ip_list, "alfamart-eth2")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-alfamart.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+      
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
 
-
+  resource "proxmox_virtual_environment_vm" "superindo-d26" {
+      name = "superindo-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "superindo-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "superindo-eth0")
+          }
+        }
+  
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "superindo-eth1")
+          }
+        }
+  
+        ip_config { #eth2
+          ipv4 {
+            address = lookup(var.ip_list, "superindo-eth2")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-superindo.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "sakinah-d26" {
+      name = "sakinah-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "sakinah-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "sakinah-eth0")
+          }
+        }
+  
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "sakinah-eth1")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-sakinah.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "its-mart-d26" {
+      name = "its-mart-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "its-mart-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = true
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "its-mart-eth0")
+          }
+        }
+  
+        ip_config { #eth1
+          ipv4 {
+            address = lookup(var.ip_list, "its-mart-eth1")
+          }
+        }
+  
+        user_data_file_id = proxmox_virtual_environment_file.script-its-mart.id
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  ```
+  Penjelasan: Potongan kode tersebut digunakan untuk meng-_spawn_ router-router yang akan digunakan. Jumlah `ip_config` dan `network_device` tergantung banyaknya _interface_ yang akan digunakan. `user_data_file_id` digunakan untuk memanggil script ke dalam routernya masing-masing dan `agent` digunakan untuk menjalankan script tersebut.
+- ```
+  resource "proxmox_virtual_environment_vm" "nasi-uduk-d26" {
+      name = "nasi-uduk-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "nasi-uduk-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "nasi-uduk")
+            gateway = lookup(var.gateaway_list, "nasi-uduk-geprek")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "geprek-d26" {
+      name = "geprek-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "geprek-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "geprek")
+            gateway = lookup(var.gateaway_list, "nasi-uduk-geprek")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "kwetiaw-d26" {
+      name = "kwetiaw-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "kwetiaw-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "kwetiaw")
+            gateway = lookup(var.gateaway_list, "kwetiaw")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  resource "proxmox_virtual_environment_vm" "pangsit-d26" {
+      name = "pangsit-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "pangsit-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "pangsit")
+            gateway = lookup(var.gateaway_list, "pangsit-naspad")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "naspad-d26" {
+      name = "naspad-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "naspad-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "naspad")
+            gateway = lookup(var.gateaway_list, "pangsit-naspad")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "ikan-fillet-d26" {
+      name = "ikan-fillet-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "ikan-fillet-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "ikan-fillet")
+            gateway = lookup(var.gateaway_list, "ikan-fillet")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  resource "proxmox_virtual_environment_vm" "nasi-uduk-d26" {
+      name = "nasi-uduk-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "nasi-uduk-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "nasi-uduk")
+            gateway = lookup(var.gateaway_list, "nasi-uduk-geprek")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "geprek-d26" {
+      name = "geprek-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "geprek-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "geprek")
+            gateway = lookup(var.gateaway_list, "nasi-uduk-geprek")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  
+  resource "proxmox_virtual_environment_vm" "kwetiaw-d26" {
+      name = "kwetiaw-d26"
+      node_name = "its"
+      on_boot = true
+      stop_on_destroy = true
+      scsi_hardware = "virtio-scsi-single"
+      vm_id = lookup(var.vm_id_list, "kwetiaw-d26")
+  
+      clone {
+          datastore_id = "local-lvm"
+          node_name = "its"
+          vm_id = 5555
+      }
+  
+      agent {
+          enabled = false
+      }
+  
+      initialization {
+        ip_config { # eth0
+          ipv4 {
+            address = lookup(var.ip_list, "kwetiaw")
+            gateway = lookup(var.gateaway_list, "kwetiaw")
+          }
+        }
+  
+        user_account {
+          username = "d26"
+          password = "d26"
+        }
+      }
+  
+      cpu {
+          cores = 1
+          type = "x86-64-v2-AES"
+      }
+  
+      memory {
+          dedicated = 1024
+          floating = 1024
+      }
+      
+      disk {
+          datastore_id = "local-lvm"
+          file_id = "local:iso/focal-server-cloudimg-amd64.img"
+          file_format = "raw"
+          interface = "virtio0"
+          iothread = true
+          size = 3 # GB
+      }
+  
+      network_device {
+          enabled = true
+          firewall = false
+          bridge = "vmbr0"
+      }
+  }
+  ```
+  Penjelasan: Potongan kode diatas digunakan untuk meng-_spawn_ client dan server yang akan disambungkan. Bedanya dengan kode yang digunakan untuk meng-_spawn_ router adalah banyaknya jumlah _interface_ (hanya 1 untuk client), `user_account` untuk login ke client, dan `gateway` (sebagai "perkenalan" dengan router yang satu subnet dengan client tersebut)
+  
 ### variables.tf Configuration
 ```
 variable "proxmox_url" {
@@ -1239,7 +2385,90 @@ variable "gateaway_list" {
 }
 ```
 Explanation
-
+- ```
+  variable "proxmox_url" {
+    type    = string
+    default = "https://10.21.71.4:8006"
+  }
+  ```
+  Penjelasan: Potongan kode tersebut adalah site proxmox yang akan digunakan
+- ```
+  variable "proxmox_user" {
+    type    = string
+    default = "D26@pam"
+  }
+  
+  variable "proxmox_password" {
+    type    = string
+    default = "7MC4#"
+  }
+  ```
+  Penjelasan: Potongan kode tersebut digunakan untuk _login_ ke dalam proxmox
+- ```
+  variable "vm_id_list" {
+    type        = map(number)
+    default = {
+      "family-mart-d26" = 550 
+      "indomaret-d26" = 551
+      "alfamart-d26" = 552
+      "superindo-d26" = 553
+      "sakinah-d26" = 554
+      "its-mart-d26" = 555
+      "nasi-uduk-d26" = 556
+      "geprek-d26" = 557
+      "kwetiaw-d26" = 558
+      "pangsit-d26" = 559
+      "naspad-d26" = 560
+      "ikan-fillet-d26" = 561
+      "tahu-tek-d26" = 562
+      "sego-jamur-d26" = 563
+    }
+  }
+  ```
+  Penjelasan: Potongan kode diatas digunakan untuk mendeklarasikan ID-ID milik `VM` / router, client, dan server yang akan digunakan
+- ```
+  variable "ip_list" {
+    type        = map(string)
+    default = {
+      "family-mart-eth1" = "192.168.26.33/30"
+      "family-mart-eth2" = "192.168.26.97/30"
+      "indomaret-eth0" = "192.168.26.34/30"
+      "indomaret-eth1" = "192.168.26.17/30"
+      "alfamart-eth0" = "192.168.26.18/30"
+      "alfamart-eth1" = "192.168.26.1/29"
+      "alfamart-eth2" = "192.168.26.9/30"
+      "superindo-eth0" = "192.168.26.98/30"
+      "superindo-eth1" = "192.168.26.89/30"
+      "superindo-eth2" = "192.168.26.65/29"
+      "sakinah-eth0" = "192.168.26.90/30"
+      "sakinah-eth1" = "192.168.26.81/29"
+      "its-mart-eth0" = "192.168.26.66/29"
+      "its-mart-eth1" = "192.168.26.73/29"
+      "nasi-uduk" = "192.168.26.2/29"
+      "geprek" = "192.168.26.3/29"
+      "kwetiaw" = "192.168.26.10/30"
+      "tahu-tek" = "192.168.26.74/29"
+      "sego-jamur" = "192.168.26.75/29"
+      "ikan-fillet" = "192.168.26.67/29"
+      "pangsit" = "192.168.26.82/29"
+      "naspad" = "192.168.26.83/29"
+    }
+  }
+  ```
+  Penjelasan: Potongan kode diatas digunakan untuk mendeklarasikan IP-IP hasil perhitungan milik router, client, dan server
+- ```
+  variable "gateaway_list" {
+    type        = map(string)
+    default = {
+      "nasi-uduk-geprek" = "192.168.26.1"
+      "kwetiaw" = "192.168.26.9"
+      "tahu-tek-sego-jamur" = "192.168.26.73"
+      "ikan-fillet" = "192.168.26.65"
+      "pangsit-naspad" = "192.168.26.81"
+    }
+  }
+  ```
+  Penjelasan: Potongan kode diatas digunakan untuk mendeklarasikan gateway-gateway milik client dan server ke router
 ### Testing
 
 - Client - client
@@ -1350,5 +2579,6 @@ Explanation
   <br>![Screenshot 2024-11-17 000617](https://github.com/user-attachments/assets/8f8af6a2-7415-407b-b15d-710bfb312291)
 - (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah
   <br>Tambahan: Meskipun pakai myITS-WiFi, sering wifinya menghilang dan connection timed out ketika melakukan terraform apply<br>
+- (Danny) 25/11/2024, terraform apply hanya bisa sekali / dua kali saja, sisanya error semua
 
 ## Revisions (if any)
