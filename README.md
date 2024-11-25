@@ -1174,7 +1174,7 @@ Explanation:
     }
   }
   ```
-  Penjelasan: Digunakan untuk mendeklarasikan provider yang akan dipakai, yaitu Proxmox
+  Penjelasan: Potongan kode diatas digunakan untuk mendeklarasikan provider yang akan dipakai, yaitu Proxmox
 - ```
   provider "proxmox" {
   endpoint = var.proxmox_url
@@ -1183,7 +1183,7 @@ Explanation:
   insecure = true
   }
   ```
-  Penjelasan: Digunakan untuk _login_ ke dalam URL Proxmox yang didefinisikan di `variables.tf`. `insecure` digunakan untuk masuk ke dalam website yang _Not Secure_.
+  Penjelasan: Potongan kode diatas digunakan untuk _login_ ke dalam URL Proxmox yang didefinisikan di `variables.tf`. `insecure` digunakan untuk masuk ke dalam website yang _Not Secure_.
 - ```
     resource "proxmox_virtual_environment_file" "script-family-mart" {
     content_type = "snippets"
@@ -1362,7 +1362,7 @@ Explanation:
     }
   }
   ```
-  Penjelasan: Script-script `cloud-init` diatas digunakan untuk men-_setup_ router-router yang akan digunakan sebagi "jalan"
+  Penjelasan: Potongan kode diatas adalah script-script `cloud-init` yang digunakan untuk men-_setup_ router-router yang akan digunakan sebagi "jalan"
 - ```
   resource "proxmox_virtual_environment_vm" "family-mart-d26" {
       name = "family-mart-d26"
