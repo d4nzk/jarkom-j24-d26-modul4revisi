@@ -119,13 +119,13 @@ resource "proxmox_virtual_environment_file" "script-family-mart" {
         - ip link set eth0 up
         - ip link set eth1 up
         - ip link set eth2 up
-  - ip route add 192.168.26.16/30 via 192.168.26.34 dev eth1
-  - ip route add 192.168.26.0/29 via 192.168.26.34 dev eth1
-  - ip route add 192.168.26.8/30 via 192.168.26.34 dev eth1
-  - ip route add 192.168.26.88/30 via 192.168.26.98 dev eth2
-  - ip route add 192.168.26.80/29 via 192.168.26.98 dev eth2
-  - ip route add 192.168.26.64/29 via 192.168.26.98 dev eth2
-  - ip route add 192.168.26.72/29 via 192.168.26.98 dev eth2
+        - ip route add 192.168.26.16/30 via 192.168.26.34 dev eth1
+        - ip route add 192.168.26.0/29 via 192.168.26.34 dev eth1
+        - ip route add 192.168.26.8/30 via 192.168.26.34 dev eth1
+        - ip route add 192.168.26.88/30 via 192.168.26.98 dev eth2
+        - ip route add 192.168.26.80/29 via 192.168.26.98 dev eth2
+        - ip route add 192.168.26.64/29 via 192.168.26.98 dev eth2
+        - ip route add 192.168.26.72/29 via 192.168.26.98 dev eth2
 
     EOF
 
@@ -1347,6 +1347,7 @@ Explanation
 ## Problems
 - Cloning VM yang gagal terus ketika ramai
 - ga bisa login pakai kredensial user_account
+  <br>![Screenshot 2024-11-17 000617](https://github.com/user-attachments/assets/8f8af6a2-7415-407b-b15d-710bfb312291)
 - (Danny) dari hari minggu, tidak bisa mengapply script terraform. baik menggunakan ethernet atau wifi di rumah
   <br>Tambahan: Meskipun pakai myITS-WiFi, sering wifinya menghilang dan connection timed out ketika melakukan terraform apply<br>
 
